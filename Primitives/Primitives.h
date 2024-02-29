@@ -60,15 +60,13 @@ private:
 };
 
 class Triangle : public Polygon{
-public:Console
-
+public:
     explicit Triangle(std::initializer_list<point_t> v): Polygon(v) {};
     void draw() override;
 };
 
 class Quad : public Polygon{
 public:
-
     explicit Quad(std::initializer_list<point_t> v): Polygon(v) {};
     void draw() override;
 };
