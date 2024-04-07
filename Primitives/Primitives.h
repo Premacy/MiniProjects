@@ -12,7 +12,7 @@ struct vector_t {};
 class AfineTransform{};
 
 // Интерфейс. Отвечает за отрисовку и то как мы видим фигуру
-class IShape{
+class IDrawingShape{
 public:
     virtual void draw() = 0;
     virtual void drawOnScreen(IScreen *screen) = 0;
@@ -29,7 +29,7 @@ public:
 };
 
 // Polygon это класс, реализующий понятие многоугольника на плоскости
-class Polygon : public IShape, public IGeometryShape{   
+class Polygon : public IDrawingShape, public IGeometryShape{   
 public:
     explicit Polygon(std::initializer_list<point_t> vertices);
     explicit Polygon(std::initializer_list<Polygon> polygons);
@@ -37,7 +37,7 @@ public:
     Polygon();
     //... другие варианты конструкторов(копирования, перемещения)
 
-    // Движение полигона
+    // Движения полигона
     void translate(const vector_t &vector) override; // параллельный перенос полигона
     void rotate   (const matrix_t & matr)  override; // вращение полигона
     void scale    (double s)               override; // масштабирование полинона
@@ -71,7 +71,7 @@ public:
     void draw() override;
 };
 
-class Circle : public IShape, public IGeometryShape{
+class Circle : public IDrawingShape, public IGeometryShape{
 public:
 
     Circle(point_t center, double radius);
