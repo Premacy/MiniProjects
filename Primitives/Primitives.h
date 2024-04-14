@@ -9,23 +9,25 @@ struct point_t  {};
 struct matrix_t {};
 struct vector_t {};
 
-class AfineTransform{};
+class AffineTransform{};
 
 // Интерфейс. Отвечает за отрисовку и то как мы видим фигуру
 class IDrawingShape{
 public:
     virtual void draw() = 0;
     virtual void drawOnScreen(IScreen *screen) = 0;
+
+    virtual ~IDrawingShape() = 0;
 };
 
 // Интерфейс. Отвечает за геометрию фигуры(т.ч преобразования)
 class IGeometryShape{
 public:
-    virtual void translate(const vector_t &vector) = 0; // параллельный перенос геометрической фигуры
-    virtual void rotate   (const matrix_t &matr)   = 0; // вращение
-    virtual void scale    (double s)               = 0; // масштабирование
+    virtual void translate(const vector_t &vector) = 0; 
+    virtual void rotate   (const matrix_t &matrix) = 0; 
+    virtual void scale    (double s)               = 0; 
 
-    virtual void transform(const matrix_t & matr)  = 0; // какое то другое линейное преобразование
+    virtual void transform(const matrix_t & matrix) = 0; 
 };
 
 // Polygon это класс, реализующий понятие многоугольника на плоскости
@@ -38,23 +40,19 @@ public:
     //... другие варианты конструкторов(копирования, перемещения)
 
     // Движения полигона
-    void translate(const vector_t &vector) override; // параллельный перенос полигона
-    void rotate   (const matrix_t & matr)  override; // вращение полигона
-    void scale    (double s)               override; // масштабирование полинона
+    void translate(const vector_t &vector)  override; 
+    void rotate   (const matrix_t & matrix) override; 
+    void scale    (double s)                override; 
 
-    void transform(const matrix_t &matr)   override;  // какое то другое линейное преобразование
-    //...
-    // другие возможные геометрически преобразования полигона
+    void transform(const matrix_t &matrix)  override;  
 
-    // метод рисования можно переопределить.
     virtual void draw() override;
 
 private:
-    void findConvexShape(std::vector<point_t> &convShape); // находим выпуклую оболочку нашего полигона
-    void polygonShape();                                   // разбиваем наш полигон
+    void findConvexShape(std::vector<point_t> &convShape);
 
 private:
-    std::vector<point_t> convexVerices; // выпуклая оболочка нашего полигона(многоугольника)
+    std::vector<int> convexVerices;      // выпуклая оболочка нашего полигона(многоугольника)
     std::vector<point_t> vetices;       // все вершины
     std::vector<Polygon> polygons;      // наш полигон может состоять из других полигонов
 };
@@ -76,9 +74,9 @@ public:
 
     Circle(point_t center, double radius);
 
-    void translate(const vector_t &vector)override; // параллельный перенос
-    void rotate   (const matrix_t & matr) override; // вращение
-    void scale    (double s)              override; // масштабирование
+    void translate(const vector_t &vector) override; 
+    void rotate   (const matrix_t &matrix) override; 
+    void scale    (double s)               override; 
 
     void draw() override;
 };
